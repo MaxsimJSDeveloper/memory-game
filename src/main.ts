@@ -6,7 +6,8 @@ import { Emoji } from "./ts/types";
 elements.button?.addEventListener("click", async () => {
   const emojis = await fetchEmoji();
   if (emojis) {
-    const clearEmojis = clearArray(emojis);
+    const mixedEmojis = shuffleArray(emojis);
+    const clearEmojis = clearArray(mixedEmojis);
     renderEmoji(clearEmojis);
   } else {
     console.log("Не вдалося отримати емодзі.");
@@ -14,7 +15,7 @@ elements.button?.addEventListener("click", async () => {
 });
 
 const renderEmoji = (emojis: Emoji[]) => {
-  const doubledEmojis = shuffleArray([...emojis, ...emojis]);
+  const doubledEmojis = [...emojis, ...emojis];
   elements.playField.innerHTML = "";
   const markup = doubledEmojis
     .map(
