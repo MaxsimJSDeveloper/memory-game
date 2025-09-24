@@ -28,3 +28,16 @@ const renderEmoji = (emojis: Emoji[]) => {
 
   elements.playField.insertAdjacentHTML("beforeend", markup);
 };
+
+const renderDefaultList = (count: number) => {
+  const markup = Array.from({ length: count }, (_, index) => {
+    return `
+      <li class="card" data-index="${index}">
+        <div class="emoji visually-hidden">${index + 1}</div>
+      </li>`;
+  }).join("");
+
+  elements.playField.innerHTML = markup;
+};
+
+renderDefaultList(16);
