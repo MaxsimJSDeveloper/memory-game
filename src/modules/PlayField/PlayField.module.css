@@ -1,0 +1,7 @@
+.playField {
+  display: grid;
+  grid-template-columns: repeat(4, 80px); /* 4 карточки в ряд */
+  grid-gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+}

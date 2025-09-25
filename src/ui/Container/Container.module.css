@@ -1,0 +1,9 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto; /* центрирование по горизонтали */
+  padding: 0 1rem; /* отступы слева/справа */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* центрируем контент по горизонтали */
+  justify-content: center;
+}
