@@ -1,16 +1,23 @@
+import iziToast from "izitoast";
 import { clearArray, shuffleArray } from "./logic/dataTransformers";
 import elements from "./logic/elements";
 import { fetchEmoji } from "./logic/featchEmoji";
 import { Emoji } from "./ts/types";
+import "izitoast/dist/css/iziToast.min.css";
 
 elements.button?.addEventListener("click", async () => {
   const emojis = await fetchEmoji();
+
   if (emojis) {
     const mixedEmojis = shuffleArray(emojis);
     const clearEmojis = clearArray(mixedEmojis);
     renderEmoji(clearEmojis);
   } else {
-    console.log("Не вдалося отримати емодзі.");
+    iziToast.error({
+      title: "Error",
+      message: "Failed to retrieve emoji.",
+      position: "topRight",
+    });
   }
 });
 
