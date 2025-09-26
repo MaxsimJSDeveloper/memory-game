@@ -1,6 +1,8 @@
 .emojiList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: contents; /* чтобы li занимали сетку родителя */
+  display: flex;
+  flex-wrap: wrap;
+  width: 400px;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
 }

@@ -5,11 +5,12 @@ import { Emoji } from "./ts/types";
 import { fetchEmoji } from "./api/emoji";
 import { prepareMemoryEmojis } from "./utils/dataTransformers";
 import Container from "./ui/Container/Container";
+import Loader from "./ui/Loader/Loader";
 
 function App() {
   const [emojis, setEmojis] = useState<Emoji[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const loadEmojis = async () => {
     try {
@@ -25,8 +26,12 @@ function App() {
 
       const gameEmojis = prepareMemoryEmojis(data);
       setEmojis(gameEmojis);
-    } catch (err: any) {
-      setError(err.message || "Unknown error");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "Unknown error");
+      } else {
+        setError("Unknown error");
+      }
     } finally {
       setLoading(false);
     }
@@ -34,12 +39,12 @@ function App() {
 
   return (
     <Container>
-      {emojis.length === 0 && <p>Click on button for start play</p>}
       <PlayField emojis={emojis} />
       <Button onClick={loadEmojis} type="button">
         Play
       </Button>
-      {loading && <p>Loading...</p>}
+      {emojis.length === 0 && !loading && <p>Click on button for start play</p>}
+      {loading && <Loader loading={loading} />}
       {error && <p>{error}</p>}
     </Container>
   );

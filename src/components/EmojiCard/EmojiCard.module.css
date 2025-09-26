@@ -1,7 +1,7 @@
 .card {
   width: 80px;
   height: 80px;
-  background-color: #f3f4f6; /* светлый фон */
+  background-color: #f3f4f6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,5 +14,5 @@
 
 .card:hover {
   transform: scale(1.05);
-  background-color: #e0e7ff; /* светло-фиолетовый при hover */
+  background-color: #e0e7ff;
 }
