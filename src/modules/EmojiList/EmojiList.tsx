@@ -4,20 +4,26 @@ import styles from "./EmojiList.module.css";
 
 interface EmojiListProps {
   emojis: Emoji[];
-  numberOfElements?: number; // необязательный, по дефолту 16
+  numberOfElements: number;
 }
 
-const EmojiList = ({ emojis, numberOfElements = 16 }: EmojiListProps) => {
-  // создаём массив нужной длины
+const EmojiList = ({ emojis, numberOfElements }: EmojiListProps) => {
   const itemsArr = Array.from({ length: numberOfElements });
 
+  const columns = Math.sqrt(numberOfElements);
+
   return (
-    <ul className={styles.emojiList}>
+    <ul
+      className={styles.emojiList}
+      style={{
+        gridTemplateColumns: `repeat(${columns}, 1fr)`,
+      }}
+    >
       {itemsArr.map((_, index) => {
-        const emoji = emojis[index]; // берём смайлик, если он есть
+        const emoji = emojis[index];
         return (
           <EmojiCard key={index}>
-            {emoji ? <p>{emoji.character}</p> : null /* пустой слот */}
+            {emoji ? <p>{emoji.character}</p> : null}
           </EmojiCard>
         );
       })}

@@ -1,8 +1,6 @@
 .emojiList {
-  display: flex;
-  flex-wrap: wrap;
-  width: 400px;
-  gap: 16px;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  gap: 12px;
+  margin: 0 auto; /* центрируем */
+  width: fit-content; /* ширина подстраивается под содержимое */
 }

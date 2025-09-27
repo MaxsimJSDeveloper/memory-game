@@ -4,12 +4,13 @@ import styles from "./PlayField.module.css";
 
 interface PlayFieldProps {
   emojis: Emoji[];
+  size: number;
 }
 
-const PlayField = ({ emojis }: PlayFieldProps) => {
+const PlayField = ({ emojis, size }: PlayFieldProps) => {
   return (
     <div className={styles.playField}>
-      <EmojiList emojis={emojis} />
+      <EmojiList numberOfElements={size} emojis={emojis} />
     </div>
   );
 };

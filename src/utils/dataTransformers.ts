@@ -1,7 +1,10 @@
 import { Emoji } from "../ts/types";
 
-export const cutArray = (arr: Emoji[]) => {
-  return arr.slice(0, 8);
+export const cutArray = (arr: Emoji[], size: number) => {
+  if (size % 2) {
+    return arr.slice(0, size - 1);
+  }
+  return arr.slice(0, size);
 };
 
 export const shuffleArray = (array: Emoji[]): Emoji[] => {
@@ -15,9 +18,11 @@ export const shuffleArray = (array: Emoji[]): Emoji[] => {
   return emojiArray;
 };
 
-export const prepareMemoryEmojis = (arr: Emoji[]): Emoji[] => {
+export const prepareMemoryEmojis = (arr: Emoji[], size: number): Emoji[] => {
   const shuffled = shuffleArray(arr);
-  const first8 = cutArray(shuffled);
-  const duplicated = [...first8, ...first8];
+  const uniqueCount = Math.floor(size / 2);
+  const selected = shuffled.slice(0, uniqueCount);
+  const duplicated = [...selected, ...selected];
+
   return duplicated;
 };

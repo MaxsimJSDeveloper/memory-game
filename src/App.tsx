@@ -6,11 +6,13 @@ import { fetchEmoji } from "./api/emoji";
 import { prepareMemoryEmojis } from "./utils/dataTransformers";
 import Container from "./ui/Container/Container";
 import Loader from "./ui/Loader/Loader";
+import SizeOfPlayField from "./modules/SizeOfPlayField/SizeOfPlayField";
 
 function App() {
   const [emojis, setEmojis] = useState<Emoji[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [fieldSize, setFieldSize] = useState<number>(16);
 
   const loadEmojis = async () => {
     try {
@@ -24,7 +26,7 @@ function App() {
       const data = await fetchEmoji();
       if (!data) throw new Error("No data received");
 
-      const gameEmojis = prepareMemoryEmojis(data);
+      const gameEmojis = prepareMemoryEmojis(data, fieldSize);
       setEmojis(gameEmojis);
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -39,7 +41,8 @@ function App() {
 
   return (
     <Container>
-      <PlayField emojis={emojis} />
+      <SizeOfPlayField createField={setFieldSize} />
+      <PlayField size={fieldSize} emojis={emojis} />
       <Button onClick={loadEmojis} type="button">
         Play
       </Button>
