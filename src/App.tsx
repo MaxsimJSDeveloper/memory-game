@@ -6,7 +6,7 @@ import { fetchEmoji } from "./api/emoji";
 import { prepareMemoryEmojis } from "./utils/dataTransformers";
 import Container from "./ui/Container/Container";
 import Loader from "./ui/Loader/Loader";
-import SizeOfPlayField from "./modules/SizeOfPlayField/SizeOfPlayField";
+import GameWrap from "./modules/GameWrap/GameWrap";
 
 function App() {
   const [emojis, setEmojis] = useState<Emoji[]>([]);
@@ -41,7 +41,7 @@ function App() {
 
   return (
     <Container>
-      <SizeOfPlayField createField={setFieldSize} />
+      <GameWrap fieldSize={setFieldSize} />
       <PlayField size={fieldSize} emojis={emojis} />
       <Button onClick={loadEmojis} type="button">
         Play

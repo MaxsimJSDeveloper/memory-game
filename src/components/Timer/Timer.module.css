@@ -1,0 +1,22 @@
+.timerContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timerInput {
+  width: 80px;
+  padding: 4px 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.timerInput:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 2px rgba(0, 123, 255, 0.5);
+}
