@@ -12,7 +12,10 @@ function App() {
   const [emojis, setEmojis] = useState<Emoji[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+
   const [fieldSize, setFieldSize] = useState<number>(16);
+
+  const [cardDelay, setCardDelay] = useState<number>(5);
 
   const loadEmojis = async () => {
     try {
@@ -41,7 +44,11 @@ function App() {
 
   return (
     <Container>
-      <GameWrap fieldSize={setFieldSize} />
+      <GameWrap
+        fieldSize={setFieldSize}
+        delay={cardDelay}
+        changeDellay={setCardDelay}
+      />
       <PlayField size={fieldSize} emojis={emojis} />
       <Button onClick={loadEmojis} type="button">
         Play

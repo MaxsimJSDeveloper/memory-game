@@ -5,14 +5,16 @@ import styles from "./GameWrap.module.css";
 
 interface GameWrapProps {
   fieldSize: (size: number) => void;
+  delay: number;
+  changeDellay: (delay: number) => void;
 }
 
-const GameWrap = ({ fieldSize }: GameWrapProps) => {
+const GameWrap = ({ fieldSize, changeDellay, delay }: GameWrapProps) => {
   return (
     <div className={styles.gameSettingsWrap}>
       <Store />
       <SizeOfPlayField createField={fieldSize} />
-      <Timer />
+      <Timer changeDellay={changeDellay} delay={delay} />
     </div>
   );
 };
