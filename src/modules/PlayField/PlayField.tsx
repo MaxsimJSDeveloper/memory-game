@@ -1,16 +1,15 @@
 import EmojiList from "../EmojiList/EmojiList";
-import { Emoji } from "../../ts/types";
+import { Card } from "../../ts/types";
 import styles from "./PlayField.module.css";
 
 interface PlayFieldProps {
-  emojis: Emoji[];
-  size: number;
+  emojis: (Card | null)[];
 }
 
-const PlayField = ({ emojis, size }: PlayFieldProps) => {
+const PlayField = ({ emojis }: PlayFieldProps) => {
   return (
     <div className={styles.playField}>
-      <EmojiList numberOfElements={size} emojis={emojis} />
+      <EmojiList emojis={emojis} />
     </div>
   );
 };

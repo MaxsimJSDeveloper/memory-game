@@ -1,16 +1,13 @@
 import EmojiCard from "../../components/EmojiCard/EmojiCard";
-import { Emoji } from "../../ts/types";
+import { Card } from "../../ts/types";
 import styles from "./EmojiList.module.css";
 
 interface EmojiListProps {
-  emojis: Emoji[];
-  numberOfElements: number;
+  emojis: (Card | null)[];
 }
 
-const EmojiList = ({ emojis, numberOfElements }: EmojiListProps) => {
-  const itemsArr = Array.from({ length: numberOfElements });
-
-  const columns = Math.sqrt(numberOfElements);
+const EmojiList = ({ emojis }: EmojiListProps) => {
+  const columns = Math.sqrt(emojis.length);
 
   return (
     <ul
@@ -19,13 +16,8 @@ const EmojiList = ({ emojis, numberOfElements }: EmojiListProps) => {
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
       }}
     >
-      {itemsArr.map((_, index) => {
-        const emoji = emojis[index];
-        return (
-          <EmojiCard key={index}>
-            {emoji ? <p>{emoji.character}</p> : null}
-          </EmojiCard>
-        );
+      {emojis.map((emoji, index) => {
+        return <EmojiCard key={emoji?.id || index} card={emoji} />;
       })}
     </ul>
   );

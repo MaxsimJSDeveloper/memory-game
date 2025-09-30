@@ -1,16 +1,15 @@
-import { ReactNode } from "react";
 import styles from "./EmojiCard.module.css";
+import { Card } from "../../ts/types";
+import React from "react";
 
 interface EmojiCardProps {
-  children: ReactNode;
+  card: Card | null;
 }
 
-const EmojiCard = ({ children }: EmojiCardProps) => {
+const EmojiCard = React.memo(({ card }: EmojiCardProps) => {
   return (
-    <li className={styles.card}>
-      <div>{children}</div>
-    </li>
+    <li className={styles.card}>{card ? <p>{card.character}</p> : null}</li>
   );
-};
+});
 
 export default EmojiCard;

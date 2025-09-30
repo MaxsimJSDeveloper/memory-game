@@ -1,13 +1,9 @@
-import { Emoji } from "../ts/types";
+import { Card, Emoji } from "../ts/types";
 
-export const cutArray = (arr: Emoji[], size: number) => {
-  if (size % 2) {
-    return arr.slice(0, size - 1);
-  }
-  return arr.slice(0, size);
-};
+const generateId = (prefix: string) =>
+  prefix + "-" + Math.random().toString(36).substr(2, 9);
 
-export const shuffleArray = (array: Emoji[]): Emoji[] => {
+const shuffleArray = <T>(array: T[]): T[] => {
   const emojiArray = [...array];
 
   for (let i = emojiArray.length - 1; i > 0; i--) {
@@ -18,11 +14,19 @@ export const shuffleArray = (array: Emoji[]): Emoji[] => {
   return emojiArray;
 };
 
-export const prepareMemoryEmojis = (arr: Emoji[], size: number): Emoji[] => {
+export const prepareMemoryEmojis = (arr: Emoji[], size: number): Card[] => {
   const shuffled = shuffleArray(arr);
-  const uniqueCount = Math.floor(size / 2);
-  const selected = shuffled.slice(0, uniqueCount);
-  const duplicated = [...selected, ...selected];
 
-  return duplicated;
+  const sizeOfArr = Math.floor(size / 2);
+  const cutArr = shuffled.slice(0, sizeOfArr);
+  const duplicated = [...cutArr, ...cutArr];
+
+  return shuffleArray(
+    duplicated.map((emoji) => ({
+      id: generateId(emoji.slug),
+      ...emoji,
+      isFlipped: false,
+      isMatched: false,
+    }))
+  );
 };

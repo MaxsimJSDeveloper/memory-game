@@ -6,3 +6,9 @@ export interface Emoji {
   subGroup: string;
   unicodeName: string;
 }
+
+export interface Card extends Emoji {
+  id: string;
+  isFlipped: boolean;
+  isMatched: boolean;
+}
