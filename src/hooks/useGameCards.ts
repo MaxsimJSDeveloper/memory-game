@@ -9,6 +9,7 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
   const [emojis, setEmojis] = useState<Card[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isPreviewing, setIsPreviewing] = useState<boolean>(true);
 
   const cleanupRef = useRef<() => void>();
 
@@ -30,11 +31,15 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
       if (emojis.length > 0) setEmojis([]);
 
       const data = await fetchEmoji();
-
       if (!data) throw new Error("No data received");
 
       const cards = prepareMemoryEmojis(data, fieldSize);
-      cleanupRef.current = previewCards({ setEmojis, cards, cardDelay });
+      cleanupRef.current = previewCards({
+        setIsPreviewing,
+        setEmojis,
+        cards,
+        cardDelay,
+      });
     } catch (err: unknown) {
       if (err instanceof Error) setError(err.message || "Unknown error");
       else setError("Unknown error");
@@ -44,20 +49,54 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
   };
 
   const handleClick = (id: string) => {
-    setEmojis((emojis) =>
-      emojis.map((card) =>
-        card.id === id ? { ...card, isOpen: !card.isOpen } : card
-      )
+    if (isPreviewing) return;
+
+    const openCards = emojis.filter((c) => c.isOpen && !c.isMatched);
+    if (openCards.length >= 2) return;
+
+    setEmojis((prev) =>
+      prev.map((card) => (card.id === id ? { ...card, isOpen: true } : card))
     );
   };
 
+  useEffect(() => {
+    const openCards = emojis.filter((c) => c.isOpen && !c.isMatched);
+
+    if (openCards.length === 2) {
+      const [first, second] = openCards;
+
+      if (first.character === second.character) {
+        setTimeout(() => {
+          setEmojis((prev) =>
+            prev.map((c) =>
+              c.id === first.id || c.id === second.id
+                ? { ...c, isOpen: false, isMatched: true }
+                : c
+            )
+          );
+        }, 500);
+      } else {
+        setTimeout(() => {
+          setEmojis((prev) =>
+            prev.map((c) =>
+              c.id === first.id || c.id === second.id
+                ? { ...c, isOpen: false }
+                : c
+            )
+          );
+        }, 1000);
+      }
+    }
+  }, [emojis]);
+
   return {
     emojis,
+    template,
     loading,
     error,
     loadEmojis,
     setEmojis,
     handleClick,
-    template,
+    isPreviewing,
   };
 };

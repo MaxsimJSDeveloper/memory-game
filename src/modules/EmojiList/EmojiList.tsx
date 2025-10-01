@@ -5,9 +5,10 @@ import styles from "./EmojiList.module.css";
 interface EmojiListProps {
   emojis: Card[];
   template: null[];
+  handleClick: (id: string) => void;
 }
 
-const EmojiList = ({ emojis, template }: EmojiListProps) => {
+const EmojiList = ({ emojis, template, handleClick }: EmojiListProps) => {
   // Колонки считаем по шаблону (он всегда есть и равен fieldSize)
   const columns = Math.sqrt(template.length);
 
@@ -21,7 +22,11 @@ const EmojiList = ({ emojis, template }: EmojiListProps) => {
       }}
     >
       {cardsToRender.map((card, index) => (
-        <EmojiCard key={(card as Card)?.id ?? index} card={card} />
+        <EmojiCard
+          key={(card as Card)?.id ?? index}
+          card={card}
+          handleClick={handleClick}
+        />
       ))}
     </ul>
   );

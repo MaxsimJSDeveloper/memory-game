@@ -5,12 +5,17 @@ import styles from "./PlayField.module.css";
 interface PlayFieldProps {
   emojis: Card[];
   template: null[];
+  handleClick: (id: string) => void;
 }
 
-const PlayField = ({ emojis, template }: PlayFieldProps) => {
+const PlayField = ({ emojis, template, handleClick }: PlayFieldProps) => {
   return (
     <div className={styles.playField}>
-      <EmojiList emojis={emojis} template={template} />
+      <EmojiList
+        emojis={emojis}
+        template={template}
+        handleClick={handleClick}
+      />
     </div>
   );
 };
