@@ -9,7 +9,11 @@ interface EmojiCardProps {
 const EmojiCard = React.memo(({ card }: EmojiCardProps) => {
   return (
     <li className={styles.card}>
-      {card && card.isOpen ? <p>{card.character}</p> : "❓"}
+      {card && (
+        <div>
+          <p>{card.isOpen ? card.character : "❓"}</p>
+        </div>
+      )}
     </li>
   );
 });

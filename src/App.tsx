@@ -1,66 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PlayField from "./modules/PlayField/PlayField";
 import Button from "./ui/Button/Button";
-import { Card } from "./ts/types";
-import { fetchEmoji } from "./api/emoji";
-import { prepareMemoryEmojis } from "./utils/dataTransformers";
 import Container from "./ui/Container/Container";
 import GameWrap from "./modules/GameWrap/GameWrap";
 import GameStatus from "./components/GameStatus/GameStatus";
+import { useGameCards } from "./hooks/useGameCards";
 
 function App() {
   const [fieldSize, setFieldSize] = useState<number>(16);
   const [cardDelay, setCardDelay] = useState<number>(5);
 
-  const [emojis, setEmojis] = useState<(Card | null)[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-
-  useEffect(() => {
-    setEmojis(Array.from({ length: fieldSize }, () => null));
-  }, [fieldSize]);
-
-  const previewCards = (cards: Card[]) => {
-    setEmojis(cards);
-
-    setTimeout(() => {
-      setEmojis((cards) =>
-        cards.map((card) => (card ? { ...card, isOpen: false } : card))
-      );
-    }, cardDelay * 1000);
-  };
-
-  const loadEmojis = async () => {
-    try {
-      setLoading(true);
-      setError("");
-
-      if (emojis.length > 0) {
-        setEmojis([]);
-      }
-
-      const data = await fetchEmoji();
-      if (!data) throw new Error("No data received");
-
-      const gameEmojis = prepareMemoryEmojis(data, fieldSize);
-      previewCards(gameEmojis);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message || "Unknown error");
-      } else {
-        setError("Unknown error");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { emojis, loadEmojis, loading, error } = useGameCards(
+    fieldSize,
+    cardDelay
+  );
 
   return (
     <Container>
       <GameWrap
         fieldSize={setFieldSize}
         delay={cardDelay}
-        changeDellay={setCardDelay}
+        changeDelay={setCardDelay}
       />
       <PlayField emojis={emojis} />
       <Button onClick={loadEmojis} type="button">
