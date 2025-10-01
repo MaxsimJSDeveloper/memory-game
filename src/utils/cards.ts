@@ -1,7 +1,7 @@
 import { Card } from "../ts/types";
 
 interface PreviewCardsProps {
-  setEmojis: React.Dispatch<React.SetStateAction<(Card | null)[]>>;
+  setEmojis: React.Dispatch<React.SetStateAction<Card[]>>;
   cards: Card[];
   cardDelay: number;
 }

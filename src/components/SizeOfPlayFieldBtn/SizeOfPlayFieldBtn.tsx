@@ -5,16 +5,20 @@ interface SizeOfPlayFieldBtnProps {
   createField: (size: number) => void;
   size: number;
   children: ReactNode;
+  disabled: boolean;
 }
 
 const SizeOfPlayFieldBtn = ({
   size,
   children,
+  disabled,
   createField,
 }: SizeOfPlayFieldBtnProps) => {
   return (
     <>
-      <Button onClick={() => createField(size)}>{children}</Button>
+      <Button disabled={disabled} onClick={() => createField(size)}>
+        {children}
+      </Button>
     </>
   );
 };

@@ -5,14 +5,15 @@ import { prepareMemoryEmojis } from "../utils/dataTransformers";
 import { previewCards } from "../utils/cards";
 
 export const useGameCards = (fieldSize: number, cardDelay: number) => {
-  const [emojis, setEmojis] = useState<(Card | null)[]>([]);
+  const [template, setTemplate] = useState<null[]>([]);
+  const [emojis, setEmojis] = useState<Card[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const cleanupRef = useRef<() => void>();
 
   useEffect(() => {
-    setEmojis(Array.from({ length: fieldSize }, () => null));
+    setTemplate(Array.from({ length: fieldSize }, () => null));
   }, [fieldSize]);
 
   useEffect(() => {
@@ -42,5 +43,21 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
     }
   };
 
-  return { emojis, loading, error, loadEmojis, setEmojis };
+  const handleClick = (id: string) => {
+    setEmojis((emojis) =>
+      emojis.map((card) =>
+        card.id === id ? { ...card, isOpen: !card.isOpen } : card
+      )
+    );
+  };
+
+  return {
+    emojis,
+    loading,
+    error,
+    loadEmojis,
+    setEmojis,
+    handleClick,
+    template,
+  };
 };

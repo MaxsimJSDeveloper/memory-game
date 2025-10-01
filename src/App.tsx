@@ -10,7 +10,7 @@ function App() {
   const [fieldSize, setFieldSize] = useState<number>(16);
   const [cardDelay, setCardDelay] = useState<number>(5);
 
-  const { emojis, loadEmojis, loading, error } = useGameCards(
+  const { emojis, loadEmojis, loading, error, template } = useGameCards(
     fieldSize,
     cardDelay
   );
@@ -21,8 +21,9 @@ function App() {
         fieldSize={setFieldSize}
         delay={cardDelay}
         changeDelay={setCardDelay}
+        disabled={emojis.length > 0 || loading}
       />
-      <PlayField emojis={emojis} />
+      <PlayField emojis={emojis} template={template} />
       <Button onClick={loadEmojis} type="button">
         Play
       </Button>

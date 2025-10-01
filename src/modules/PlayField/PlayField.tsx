@@ -3,13 +3,14 @@ import { Card } from "../../ts/types";
 import styles from "./PlayField.module.css";
 
 interface PlayFieldProps {
-  emojis: (Card | null)[];
+  emojis: Card[];
+  template: null[];
 }
 
-const PlayField = ({ emojis }: PlayFieldProps) => {
+const PlayField = ({ emojis, template }: PlayFieldProps) => {
   return (
     <div className={styles.playField}>
-      <EmojiList emojis={emojis} />
+      <EmojiList emojis={emojis} template={template} />
     </div>
   );
 };

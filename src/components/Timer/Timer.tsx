@@ -2,10 +2,11 @@ import css from "./Timer.module.css";
 
 interface TimerProps {
   delay: number;
+  disabled: boolean;
   changeDelay: (delay: number) => void;
 }
 
-const Timer = ({ delay, changeDelay }: TimerProps) => {
+const Timer = ({ delay, disabled, changeDelay }: TimerProps) => {
   return (
     <div className={css.timerContainer}>
       <input
@@ -15,6 +16,7 @@ const Timer = ({ delay, changeDelay }: TimerProps) => {
         max={60}
         value={delay}
         onChange={(e) => changeDelay(Number(e.target.value))}
+        disabled={disabled}
       />
       <p>Current delay: {delay} sec</p>
     </div>

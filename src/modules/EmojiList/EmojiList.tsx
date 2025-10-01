@@ -3,11 +3,15 @@ import { Card } from "../../ts/types";
 import styles from "./EmojiList.module.css";
 
 interface EmojiListProps {
-  emojis: (Card | null)[];
+  emojis: Card[];
+  template: null[];
 }
 
-const EmojiList = ({ emojis }: EmojiListProps) => {
-  const columns = Math.sqrt(emojis.length);
+const EmojiList = ({ emojis, template }: EmojiListProps) => {
+  // Колонки считаем по шаблону (он всегда есть и равен fieldSize)
+  const columns = Math.sqrt(template.length);
+
+  const cardsToRender = emojis.length > 0 ? emojis : template;
 
   return (
     <ul
@@ -16,9 +20,9 @@ const EmojiList = ({ emojis }: EmojiListProps) => {
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
       }}
     >
-      {emojis.map((emoji, index) => {
-        return <EmojiCard key={emoji?.id || index} card={emoji} />;
-      })}
+      {cardsToRender.map((card, index) => (
+        <EmojiCard key={(card as Card)?.id ?? index} card={card} />
+      ))}
     </ul>
   );
 };
