@@ -5,8 +5,8 @@ import { Card } from "./ts/types";
 import { fetchEmoji } from "./api/emoji";
 import { prepareMemoryEmojis } from "./utils/dataTransformers";
 import Container from "./ui/Container/Container";
-import Loader from "./ui/Loader/Loader";
 import GameWrap from "./modules/GameWrap/GameWrap";
+import GameStatus from "./components/GameStatus/GameStatus";
 
 function App() {
   const [fieldSize, setFieldSize] = useState<number>(16);
@@ -19,6 +19,16 @@ function App() {
   useEffect(() => {
     setEmojis(Array.from({ length: fieldSize }, () => null));
   }, [fieldSize]);
+
+  const previewCards = (cards: Card[]) => {
+    setEmojis(cards);
+
+    setTimeout(() => {
+      setEmojis((cards) =>
+        cards.map((card) => (card ? { ...card, isOpen: false } : card))
+      );
+    }, cardDelay * 1000);
+  };
 
   const loadEmojis = async () => {
     try {
@@ -33,8 +43,7 @@ function App() {
       if (!data) throw new Error("No data received");
 
       const gameEmojis = prepareMemoryEmojis(data, fieldSize);
-
-      setEmojis(gameEmojis);
+      previewCards(gameEmojis);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message || "Unknown error");
@@ -57,9 +66,7 @@ function App() {
       <Button onClick={loadEmojis} type="button">
         Play
       </Button>
-      {emojis.length === 0 && !loading && <p>Click on button for start play</p>}
-      {loading && <Loader loading={loading} />}
-      {error && <p>{error}</p>}
+      <GameStatus emojis={emojis} loading={loading} error={error} />
     </Container>
   );
 }

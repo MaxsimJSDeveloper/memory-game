@@ -25,7 +25,7 @@ export const prepareMemoryEmojis = (arr: Emoji[], size: number): Card[] => {
     duplicated.map((emoji) => ({
       id: generateId(emoji.slug),
       ...emoji,
-      isFlipped: false,
+      isOpen: true,
       isMatched: false,
     }))
   );

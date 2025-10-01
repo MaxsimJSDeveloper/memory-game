@@ -9,6 +9,6 @@ export interface Emoji {
 
 export interface Card extends Emoji {
   id: string;
-  isFlipped: boolean;
+  isOpen: boolean;
   isMatched: boolean;
 }
