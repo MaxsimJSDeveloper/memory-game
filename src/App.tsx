@@ -5,6 +5,7 @@ import Container from "./ui/Container/Container";
 import GameWrap from "./modules/GameWrap/GameWrap";
 import GameStatus from "./components/GameStatus/GameStatus";
 import { useGameCards } from "./hooks/useGameCards";
+import { useScore } from "./hooks/useScore";
 
 function App() {
   const [fieldSize, setFieldSize] = useState<number>(16);
@@ -13,6 +14,7 @@ function App() {
   const { emojis, loadEmojis, loading, error, template, handleClick } =
     useGameCards(fieldSize, cardDelay);
 
+  const score = useScore(emojis);
   return (
     <Container>
       <GameWrap
@@ -20,6 +22,7 @@ function App() {
         delay={cardDelay}
         changeDelay={setCardDelay}
         disabled={emojis.length > 0 || loading}
+        score={score}
       />
       <PlayField
         emojis={emojis}
@@ -27,7 +30,7 @@ function App() {
         handleClick={handleClick}
       />
       <Button onClick={loadEmojis} type="button">
-        Play
+        {emojis.length > 0 ? "Play again" : "Play"}
       </Button>
       <GameStatus emojis={emojis} loading={loading} error={error} />
     </Container>

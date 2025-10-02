@@ -24,3 +24,41 @@ export const previewCards = ({
 
   return () => clearTimeout(timeout);
 };
+
+export const resolvePair = (
+  first: Card,
+  second: Card,
+  setEmojis: React.Dispatch<React.SetStateAction<Card[]>>
+) => {
+  if (first.character === second.character) {
+    setEmojis((prev) =>
+      prev.map((c) =>
+        c.id === first.id || c.id === second.id
+          ? { ...c, isOpen: false, isMatched: true }
+          : c
+      )
+    );
+  } else {
+    setEmojis((prev) =>
+      prev.map((c) =>
+        c.id === first.id || c.id === second.id ? { ...c, isOpen: false } : c
+      )
+    );
+  }
+};
+
+export const handleCardClick = (
+  id: string,
+  emojis: Card[],
+  setEmojis: React.Dispatch<React.SetStateAction<Card[]>>,
+  isPreviewing: boolean
+) => {
+  if (isPreviewing) return;
+
+  const openCards = emojis.filter((c) => c.isOpen && !c.isMatched);
+  if (openCards.length >= 2) return;
+
+  setEmojis((prev) =>
+    prev.map((card) => (card.id === id ? { ...card, isOpen: true } : card))
+  );
+};

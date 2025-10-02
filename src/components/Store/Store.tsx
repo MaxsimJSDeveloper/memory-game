@@ -1,7 +1,11 @@
-const Store = () => {
+interface StoreProps {
+  score: number;
+}
+
+const Store = ({ score }: StoreProps) => {
   return (
     <div>
-      <p>Store:</p>
+      <p>Store: {score}</p>
     </div>
   );
 };

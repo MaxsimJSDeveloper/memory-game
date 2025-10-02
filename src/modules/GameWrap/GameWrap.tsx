@@ -8,6 +8,7 @@ interface GameWrapProps {
   changeDelay: (delay: number) => void;
   delay: number;
   disabled: boolean;
+  score: number;
 }
 
 const GameWrap = ({
@@ -15,10 +16,11 @@ const GameWrap = ({
   changeDelay,
   delay,
   disabled,
+  score,
 }: GameWrapProps) => {
   return (
     <div className={styles.gameSettingsWrap}>
-      <Store />
+      <Store score={score} />
       <SizeOfPlayField createField={fieldSize} disabled={disabled} />
       <Timer changeDelay={changeDelay} delay={delay} disabled={disabled} />
     </div>
