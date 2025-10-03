@@ -1,4 +1,3 @@
-import Store from "../../components/Store/Store";
 import Timer from "../../components/Timer/Timer";
 import SizeOfPlayField from "../SizeOfPlayField/SizeOfPlayField";
 import styles from "./GameWrap.module.css";
@@ -8,7 +7,6 @@ interface GameWrapProps {
   changeDelay: (delay: number) => void;
   delay: number;
   disabled: boolean;
-  score: number;
 }
 
 const GameWrap = ({
@@ -16,11 +14,9 @@ const GameWrap = ({
   changeDelay,
   delay,
   disabled,
-  score,
 }: GameWrapProps) => {
   return (
     <div className={styles.gameSettingsWrap}>
-      <Store score={score} />
       <SizeOfPlayField createField={fieldSize} disabled={disabled} />
       <Timer changeDelay={changeDelay} delay={delay} disabled={disabled} />
     </div>

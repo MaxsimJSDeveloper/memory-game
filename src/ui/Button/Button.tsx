@@ -1,4 +1,4 @@
-import { FC, ReactNode, MouseEventHandler } from "react";
+import { ReactNode, MouseEventHandler } from "react";
 import styles from "./Button.module.css";
 
 interface ButtonProps {
@@ -6,23 +6,16 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
+  disabled?: boolean;
 }
 
-interface ButtonProps {
-  children: ReactNode;
-  type?: "button" | "submit" | "reset";
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  className?: string;
-  disabled?: boolean; // <-- добавляем
-}
-
-const Button: FC<ButtonProps> = ({
+const Button = ({
   children,
   type = "button",
   onClick,
   className,
-  disabled = false, // <-- дефолт false
-}) => {
+  disabled = false,
+}: ButtonProps) => {
   return (
     <button
       type={type}
@@ -30,7 +23,7 @@ const Button: FC<ButtonProps> = ({
         disabled ? styles.disabled : ""
       } ${className}`}
       onClick={onClick}
-      disabled={disabled} // <-- прокидываем
+      disabled={disabled}
     >
       {children}
     </button>

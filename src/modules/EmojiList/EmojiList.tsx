@@ -9,7 +9,6 @@ interface EmojiListProps {
 }
 
 const EmojiList = ({ emojis, template, handleClick }: EmojiListProps) => {
-  // Колонки считаем по шаблону (он всегда есть и равен fieldSize)
   const columns = Math.sqrt(template.length);
 
   const cardsToRender = emojis.length > 0 ? emojis : template;

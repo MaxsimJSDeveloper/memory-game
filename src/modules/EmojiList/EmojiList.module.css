@@ -1,6 +1,6 @@
 .emojiList {
   display: grid;
   gap: 12px;
-  margin: 0 auto; /* центрируем */
-  width: fit-content; /* ширина подстраивается под содержимое */
+  margin: 0 auto;
+  width: fit-content;
 }

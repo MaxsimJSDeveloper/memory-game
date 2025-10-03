@@ -1,4 +1,5 @@
 import SizeOfPlayFieldBtn from "../../components/SizeOfPlayFieldBtn/SizeOfPlayFieldBtn";
+import { useWindowWidth } from "../../hooks/useWindowWidth";
 import style from "./SizeOfPlayField.module.css";
 
 interface SizeOfPlayFieldProps {
@@ -7,6 +8,8 @@ interface SizeOfPlayFieldProps {
 }
 
 const SizeOfPlayField = ({ createField, disabled }: SizeOfPlayFieldProps) => {
+  const width = useWindowWidth();
+
   return (
     <div className={style.playFieldWrap}>
       <div className={style.sizeButtonsWrap}>
@@ -24,13 +27,15 @@ const SizeOfPlayField = ({ createField, disabled }: SizeOfPlayFieldProps) => {
         >
           4 x 4
         </SizeOfPlayFieldBtn>
-        <SizeOfPlayFieldBtn
-          createField={createField}
-          size={36}
-          disabled={disabled}
-        >
-          6 x 6
-        </SizeOfPlayFieldBtn>
+        {width > 760 && (
+          <SizeOfPlayFieldBtn
+            createField={createField}
+            size={36}
+            disabled={disabled}
+          >
+            6 x 6
+          </SizeOfPlayFieldBtn>
+        )}
       </div>
       <p className={style.descrBtnText}>Choose the size of play field</p>
     </div>
