@@ -19,9 +19,7 @@ const Button = ({
   return (
     <button
       type={type}
-      className={`${styles.button} ${
-        disabled ? styles.disabled : ""
-      } ${className}`}
+      className={`${styles.button} ${className}`}
       onClick={onClick}
       disabled={disabled}
     >

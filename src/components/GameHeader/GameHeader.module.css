@@ -5,3 +5,12 @@
   width: 300px;
   margin-top: 12px;
 }
+
+.settingBtn {
+  background-color: inherit;
+}
+
+.settingBtn:hover {
+  background-color: inherit;
+  transform: scale(1.1);
+}

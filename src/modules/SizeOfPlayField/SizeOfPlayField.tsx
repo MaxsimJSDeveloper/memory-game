@@ -12,6 +12,7 @@ const SizeOfPlayField = ({ createField, disabled }: SizeOfPlayFieldProps) => {
 
   return (
     <div className={style.playFieldWrap}>
+      <p className={style.descrBtnText}>Choose the size of play field:</p>
       <div className={style.sizeButtonsWrap}>
         <SizeOfPlayFieldBtn
           createField={createField}
@@ -37,7 +38,6 @@ const SizeOfPlayField = ({ createField, disabled }: SizeOfPlayFieldProps) => {
           </SizeOfPlayFieldBtn>
         )}
       </div>
-      <p className={style.descrBtnText}>Choose the size of play field</p>
     </div>
   );
 };

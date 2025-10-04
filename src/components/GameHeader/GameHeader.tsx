@@ -12,7 +12,11 @@ const GameHeader = ({ score, onSettingsClick }: GameHeaderProps) => {
   return (
     <div className={styles.gameHeaderWrap}>
       <Score score={score} />
-      <Button type="button" onClick={onSettingsClick}>
+      <Button
+        type="button"
+        onClick={onSettingsClick}
+        className={styles.settingBtn}
+      >
         <Icon id="icon-setting" />
       </Button>
     </div>

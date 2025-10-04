@@ -1,4 +1,4 @@
-import css from "./Timer.module.css";
+import styles from "./Timer.module.css";
 
 interface TimerProps {
   delay: number;
@@ -8,17 +8,20 @@ interface TimerProps {
 
 const Timer = ({ delay, disabled, changeDelay }: TimerProps) => {
   return (
-    <div className={css.timerContainer}>
-      <input
-        type="number"
-        className={css.timerInput}
-        min={1}
-        max={60}
-        value={delay}
-        onChange={(e) => changeDelay(Number(e.target.value))}
-        disabled={disabled}
-      />
-      <p>Current delay: {delay} sec</p>
+    <div className={styles.timerContainer}>
+      <p>Card display time:</p>
+      <div className={styles.timerInputWrap}>
+        <input
+          type="number"
+          className={styles.timerInput}
+          min={1}
+          max={60}
+          value={delay}
+          onChange={(e) => changeDelay(Number(e.target.value))}
+          disabled={disabled}
+        />
+        <p>Current delay: {delay} sec</p>
+      </div>
     </div>
   );
 };

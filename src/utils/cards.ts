@@ -39,11 +39,7 @@ export const resolvePair = (
       )
     );
   } else {
-    setEmojis((prev) =>
-      prev.map((c) =>
-        c.id === first.id || c.id === second.id ? { ...c, isOpen: false } : c
-      )
-    );
+    setEmojis((prev) => prev.map((c) => ({ ...c, isOpen: false })));
   }
 };
 

@@ -1,20 +1,20 @@
 import Timer from "../../components/Timer/Timer";
 import SizeOfPlayField from "../SizeOfPlayField/SizeOfPlayField";
-import styles from "./GameWrap.module.css";
+import styles from "./GameSettings.module.css";
 
-interface GameWrapProps {
+interface GameSettingsProps {
   fieldSize: (size: number) => void;
   changeDelay: (delay: number) => void;
   delay: number;
   disabled: boolean;
 }
 
-const GameWrap = ({
+const GameSettings = ({
   fieldSize,
   changeDelay,
   delay,
   disabled,
-}: GameWrapProps) => {
+}: GameSettingsProps) => {
   return (
     <div className={styles.gameSettingsWrap}>
       <SizeOfPlayField createField={fieldSize} disabled={disabled} />
@@ -23,4 +23,4 @@ const GameWrap = ({
   );
 };
 
-export default GameWrap;
+export default GameSettings;

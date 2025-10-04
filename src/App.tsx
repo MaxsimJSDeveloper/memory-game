@@ -2,12 +2,12 @@ import { useState } from "react";
 import PlayField from "./modules/PlayField/PlayField";
 import Button from "./ui/Button/Button";
 import Container from "./ui/Container/Container";
-import GameWrap from "./modules/GameWrap/GameWrap";
 import GameStatus from "./components/GameStatus/GameStatus";
 import { useGameCards } from "./hooks/useGameCards";
 import { useScore } from "./hooks/useScore";
 import Modal from "./ui/Modal/Modal";
 import GameHeader from "./components/GameHeader/GameHeader";
+import GameSettings from "./modules/GameSettings/GameSettings";
 
 function App() {
   const [fieldSize, setFieldSize] = useState<number>(16);
@@ -34,7 +34,7 @@ function App() {
       {emojis.length === 0 && <p>Click on button for start play</p>}
 
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <GameWrap
+        <GameSettings
           fieldSize={setFieldSize}
           delay={cardDelay}
           changeDelay={setCardDelay}

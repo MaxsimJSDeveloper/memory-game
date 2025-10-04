@@ -1,7 +1,5 @@
 import { Card, Emoji } from "../ts/types";
-
-const generateId = (prefix: string) =>
-  prefix + "-" + Math.random().toString(36).substr(2, 9);
+import { generateId } from "./helpers/generateId";
 
 const shuffleArray = <T>(array: T[]): T[] => {
   const emojiArray = [...array];
@@ -17,8 +15,9 @@ const shuffleArray = <T>(array: T[]): T[] => {
 export const prepareMemoryEmojis = (arr: Emoji[], size: number): Card[] => {
   const shuffled = shuffleArray(arr);
 
-  const sizeOfArr = Math.floor(size / 2);
+  const sizeOfArr = size / 2;
   const cutArr = shuffled.slice(0, sizeOfArr);
+
   const duplicated = [...cutArr, ...cutArr];
 
   return shuffleArray(
