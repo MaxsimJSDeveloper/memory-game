@@ -8,6 +8,7 @@ import { useScore } from "./hooks/useScore";
 import Modal from "./ui/Modal/Modal";
 import GameHeader from "./components/GameHeader/GameHeader";
 import GameSettings from "./modules/GameSettings/GameSettings";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [fieldSize, setFieldSize] = useState<number>(16);
@@ -41,7 +42,7 @@ function App() {
           disabled={emojis.length > 0 || loading}
         />
       </Modal>
-
+      <ToastContainer />
       <GameStatus loading={loading} error={error} />
     </Container>
   );

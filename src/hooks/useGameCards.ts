@@ -2,73 +2,64 @@ import { useEffect, useRef, useState } from "react";
 import { Card } from "../ts/types";
 import { fetchEmoji } from "../api/emoji";
 import { prepareMemoryEmojis } from "../utils/dataTransformers";
-import { handleCardClick, previewCards, resolvePair } from "../utils/cards";
+import { toast } from "react-toastify";
+import { openCard, previewCards } from "../utils/cards";
 
 export const useGameCards = (fieldSize: number, cardDelay: number) => {
   const [template, setTemplate] = useState<null[]>([]);
 
   const [emojis, setEmojis] = useState<Card[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState("");
 
   const [isPreviewing, setIsPreviewing] = useState<boolean>(true);
 
-  const cleanupRef = useRef<() => void>();
+  const previewTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const pairTimeout = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     setTemplate(Array.from({ length: fieldSize }, () => null));
   }, [fieldSize]);
 
-  useEffect(() => {
-    return () => {
-      cleanupRef.current?.();
-    };
-  }, []);
-
   const loadEmojis = async () => {
     try {
       setLoading(true);
       setError("");
+      setEmojis([]);
 
-      if (emojis.length > 0) {
-        setEmojis([]);
-      }
+      toast.dismiss();
+      toast("Game start");
 
       const data = await fetchEmoji();
       if (!data) throw new Error("No data received");
 
       const cards = prepareMemoryEmojis(data, fieldSize);
-      cleanupRef.current = previewCards({
-        setIsPreviewing,
-        setEmojis,
-        cards,
-        cardDelay,
-      });
+      setEmojis(cards);
+      setIsPreviewing(true);
+
+      previewCards({ setEmojis, setIsPreviewing, previewTimeout, cardDelay });
     } catch (err: unknown) {
-      if (err instanceof Error) setError(err.message || "Unknown error");
-      else setError("Unknown error");
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleClick = (id: string) =>
-    handleCardClick(id, emojis, setEmojis, isPreviewing);
+  const handleClick = (id: string) => {
+    if (isPreviewing) return;
+
+    setEmojis((emojis) => openCard({ id, emojis, setEmojis, pairTimeout }));
+  };
 
   useEffect(() => {
-    const openCards = emojis.filter((c) => c.isOpen && !c.isMatched);
+    const preview = previewTimeout.current;
+    const pair = pairTimeout.current;
 
-    if (openCards.length === 2) {
-      const [first, second] = openCards;
-
-      const timeoutId = setTimeout(
-        () => resolvePair(first, second, setEmojis),
-        500
-      );
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [emojis]);
+    return () => {
+      clearTimeout(preview);
+      clearTimeout(pair);
+    };
+  }, []);
 
   return {
     emojis,
