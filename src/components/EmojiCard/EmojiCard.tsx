@@ -1,6 +1,7 @@
 import styles from "./EmojiCard.module.css";
 import { Card } from "../../ts/types";
 import React from "react";
+import { useSpring, a } from "@react-spring/web";
 
 interface EmojiCardProps {
   card: Card | null;
@@ -8,16 +9,46 @@ interface EmojiCardProps {
 }
 
 const EmojiCard = React.memo(({ card, handleClick }: EmojiCardProps) => {
-  const isClickable = card && !card.isOpen && !card.isMatched;
+  const isFlipped = !!card && (card.isOpen || card.isMatched);
+
+  const { transform, opacity } = useSpring({
+    opacity: isFlipped ? 1 : 0,
+    transform: `perspective(600px) rotateY(${
+      card && (card.isOpen || card.isMatched) ? 180 : 0
+    }deg)`,
+    config: { mass: 5, tension: 500, friction: 80 },
+  });
+
+  if (card === null) {
+    return <li className={`${styles.card}`}></li>;
+  }
+
+  const isClickable = !card.isOpen && !card.isMatched;
 
   return (
     <li
-      className={`${styles.card} ${card?.isMatched ? styles.matched : ""}`}
+      className={`${styles.card} ${card.isMatched ? styles.matched : ""}`}
       onClick={() => isClickable && handleClick(card.id)}
     >
-      {card ? (
-        <p>{card.isOpen || card.isMatched ? card.character : "❓"}</p>
-      ) : null}
+      <a.div
+        className={styles.cardFace}
+        style={{
+          opacity: opacity.to((o) => 1 - o),
+          transform,
+        }}
+      >
+        ❓
+      </a.div>
+      <a.div
+        className={styles.cardFace}
+        style={{
+          opacity,
+          transform,
+          rotateY: "180deg",
+        }}
+      >
+        {card.character}
+      </a.div>
     </li>
   );
 });

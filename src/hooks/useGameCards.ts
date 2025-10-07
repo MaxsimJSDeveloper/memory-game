@@ -37,9 +37,12 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
       setEmojis(cards);
       setIsPreviewing(true);
 
+      toast(`Time of previewing cards ${cardDelay} sec`);
       previewCards({ setEmojis, setIsPreviewing, previewTimeout, cardDelay });
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Unknown error");
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      setError(errorMessage);
+      toast.error(`Error: ${errorMessage}`);
     } finally {
       setLoading(false);
     }

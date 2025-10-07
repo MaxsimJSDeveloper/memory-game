@@ -42,7 +42,7 @@ function App() {
           disabled={emojis.length > 0 || loading}
         />
       </Modal>
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
       <GameStatus loading={loading} error={error} />
     </Container>
   );
