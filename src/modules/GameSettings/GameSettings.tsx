@@ -17,6 +17,9 @@ const GameSettings = ({
 }: GameSettingsProps) => {
   return (
     <div className={styles.gameSettingsWrap}>
+      <h2 id="modal-title" className={styles.title}>
+        Game Settings
+      </h2>
       <SizeOfPlayField createField={fieldSize} disabled={disabled} />
       <Timer changeDelay={changeDelay} delay={delay} disabled={disabled} />
     </div>

@@ -9,6 +9,7 @@ import Modal from "./ui/Modal/Modal";
 import GameHeader from "./components/GameHeader/GameHeader";
 import GameSettings from "./modules/GameSettings/GameSettings";
 import { ToastContainer } from "react-toastify";
+import { Helmet } from "react-helmet-async";
 
 function App() {
   const [fieldSize, setFieldSize] = useState<number>(16);
@@ -23,6 +24,13 @@ function App() {
 
   return (
     <Container>
+      <Helmet>
+        <title>Memory Game | Train Your Brain & Focus</title>
+        <meta
+          name="description"
+          content="A fun and challenging memory game to improve your focus and cognitive skills. Match the pairs and test your brain. Play for free online!"
+        />
+      </Helmet>
       <GameHeader score={score} onSettingsClick={() => setIsOpen(true)} />
       <PlayField
         emojis={emojis}

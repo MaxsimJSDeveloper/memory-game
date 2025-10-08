@@ -9,6 +9,7 @@
   perspective: 800px;
   cursor: pointer;
   background: #fff;
+  user-select: none;
 }
 
 .card:hover:not(.matched) {

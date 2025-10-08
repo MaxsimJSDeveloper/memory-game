@@ -10,7 +10,7 @@ interface GameHeaderProps {
 
 const GameHeader = ({ score, onSettingsClick }: GameHeaderProps) => {
   return (
-    <div className={styles.gameHeaderWrap}>
+    <header className={styles.gameHeaderWrap}>
       <Score score={score} />
       <Button
         type="button"
@@ -19,7 +19,7 @@ const GameHeader = ({ score, onSettingsClick }: GameHeaderProps) => {
       >
         <Icon id="icon-setting" />
       </Button>
-    </div>
+    </header>
   );
 };
 

@@ -1,5 +1,6 @@
 import { CSSProperties } from "react";
 import { CircleLoader } from "react-spinners";
+import styles from "./Loader.module.css";
 
 interface LoaderProps {
   loading: boolean;
@@ -14,14 +15,17 @@ const override: CSSProperties = {
 
 const Loader = ({ loading }: LoaderProps) => {
   return (
-    <CircleLoader
-      color="#4f46e5"
-      loading={loading}
-      cssOverride={override}
-      size={150}
-      aria-label="Loading Spinner"
-      data-testid="loader"
-    />
+    <>
+      <CircleLoader
+        color="#4f46e5"
+        loading={loading}
+        cssOverride={override}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      <p className={styles.loaderTxt}>Loading...</p>
+    </>
   );
 };
 

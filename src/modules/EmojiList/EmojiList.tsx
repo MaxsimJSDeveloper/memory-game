@@ -25,6 +25,7 @@ const EmojiList = ({ emojis, template, handleClick }: EmojiListProps) => {
           key={(card as Card)?.id ?? index}
           card={card}
           handleClick={handleClick}
+          index={index}
         />
       ))}
     </ul>

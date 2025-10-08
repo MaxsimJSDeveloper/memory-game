@@ -1,7 +1,8 @@
 import ReactDOM from "react-dom";
 import Icon from "../Icon";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import styles from "./Modal.module.css";
+import { FocusTrap } from "focus-trap-react";
 
 interface ModalProps {
   children: ReactNode;
@@ -10,17 +11,53 @@ interface ModalProps {
 }
 
 const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      modalRef.current?.focus();
+
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "Escape") {
+          onClose();
+        }
+      };
+
+      document.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose}>
-          <Icon id="icon-close" width="16" height="16" />
-        </button>
-        {children}
+    <FocusTrap active={isOpen}>
+      <div className={styles.modalOverlay} onClick={onClose}>
+        <div
+          ref={modalRef}
+          className={styles.modalContent}
+          onClick={(e) => e.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          tabIndex={-1}
+          aria-labelledby="modal-title"
+        >
+          {/* ВАЖЛИВО: додайте id="modal-title" до головного заголовку всередині модального вікна.
+            Наприклад, у вашому компоненті GameSettings: <h2 id="modal-title">Settings</h2> */}
+          <button
+            className={styles.closeButton}
+            onClick={onClose}
+            aria-label="Close settings"
+          >
+            <Icon id="icon-close" width="16" height="16" />
+          </button>
+          {children}
+        </div>
       </div>
-    </div>,
+    </FocusTrap>,
     document.getElementById("portal-root")!
   );
 };

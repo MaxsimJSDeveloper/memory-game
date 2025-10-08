@@ -1,4 +1,5 @@
 import Loader from "../../ui/Loader/Loader";
+import styles from "./GameStatus.module.css";
 
 interface Props {
   loading: boolean;
@@ -6,7 +7,14 @@ interface Props {
 }
 
 export default function GameStatus({ loading, error }: Props) {
-  if (loading) return <Loader loading />;
-  if (error) return <p>{error}</p>;
-  return null;
+  return (
+    <div role="status" className={styles.statusContainer}>
+      {loading && (
+        <>
+          <Loader loading />
+        </>
+      )}
+      {error && <p className={styles.errorMessage}>{error}</p>}
+    </div>
+  );
 }
