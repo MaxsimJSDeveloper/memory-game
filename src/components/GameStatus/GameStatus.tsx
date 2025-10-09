@@ -14,7 +14,7 @@ export default function GameStatus({ loading, error }: Props) {
           <Loader loading />
         </>
       )}
-      {error && <p className={styles.errorMessage}>{error}</p>}
+      {error && <p>{error}</p>}
     </div>
   );
 }

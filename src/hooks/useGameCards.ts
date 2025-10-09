@@ -9,7 +9,7 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
   const [template, setTemplate] = useState<null[]>([]);
 
   const [emojis, setEmojis] = useState<Card[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState("");
 
   const [isPreviewing, setIsPreviewing] = useState<boolean>(true);
