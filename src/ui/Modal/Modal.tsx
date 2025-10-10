@@ -45,8 +45,6 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
           tabIndex={-1}
           aria-labelledby="modal-title"
         >
-          {/* ВАЖЛИВО: додайте id="modal-title" до головного заголовку всередині модального вікна.
-            Наприклад, у вашому компоненті GameSettings: <h2 id="modal-title">Settings</h2> */}
           <button
             className={styles.closeButton}
             onClick={onClose}
