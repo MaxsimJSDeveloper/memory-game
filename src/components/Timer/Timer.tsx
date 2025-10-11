@@ -1,3 +1,4 @@
+import TxtWrap from "../../ui/TxtWrap/TxtWrap";
 import styles from "./Timer.module.css";
 
 interface TimerProps {
@@ -9,7 +10,7 @@ interface TimerProps {
 const Timer = ({ delay, disabled, changeDelay }: TimerProps) => {
   return (
     <div className={styles.timerContainer}>
-      <p>Card display time:</p>
+      <TxtWrap style={{ color: "#a0aec0" }}>Card display time:</TxtWrap>
       <div className={styles.timerInputWrap}>
         <input
           type="number"
@@ -20,7 +21,7 @@ const Timer = ({ delay, disabled, changeDelay }: TimerProps) => {
           onChange={(e) => changeDelay(Number(e.target.value))}
           disabled={disabled}
         />
-        <p>Current delay: {delay} sec</p>
+        <TxtWrap>Current delay: {delay} sec</TxtWrap>
       </div>
     </div>
   );

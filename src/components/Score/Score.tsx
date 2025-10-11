@@ -1,4 +1,5 @@
 import Icon from "../../ui/Icon";
+import TxtWrap from "../../ui/TxtWrap/TxtWrap";
 import styles from "./Score.module.css";
 
 interface StoreProps {
@@ -8,8 +9,8 @@ interface StoreProps {
 const Score = ({ score }: StoreProps) => {
   return (
     <div className={styles.scoreWrap}>
-      <Icon id="icon-star" fill="#fafafa" stroke="#fafafa" />
-      <p>{score}</p>
+      <Icon id="icon-star" fill="#f6e05e" stroke="#f6e05e" />
+      <TxtWrap>{score}</TxtWrap>
     </div>
   );
 };

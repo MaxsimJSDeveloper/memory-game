@@ -17,7 +17,7 @@ const GameHeader = ({ score, onSettingsClick }: GameHeaderProps) => {
         onClick={onSettingsClick}
         className={styles.settingBtn}
       >
-        <Icon id="icon-setting" />
+        <Icon id="icon-setting" fill="#edf2f7" />
       </Button>
     </header>
   );

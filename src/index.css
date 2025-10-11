@@ -1,3 +1,30 @@
+:root {
+  /* Цветовая палитра */
+  --bg-main: #1a202c; /* Темно-синий фон */
+  --bg-surface: #2d3748; /* Фон для поверхностей (игровое поле, модалка) */
+  --primary: #6366f1; /* Основной цвет (кнопки) */
+  --primary-hover: #4f46e5; /* Основной цвет при наведении */
+  --text-primary: #edf2f7; /* Основной цвет текста */
+  --text-secondary: #a0aec0; /* Второстепенный цвет текста */
+  --success: #34d399; /* Цвет для угаданных карточек */
+  --card-bg: #4a5568; /* Фон карточки */
+
+  --font-family: "Inter", sans-serif;
+
+  --border-radius: 8px;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 h1,
 h2,
 h3,
@@ -7,10 +34,6 @@ h6,
 p {
   margin-top: 0;
   margin-bottom: 0;
-}
-
-body {
-  margin: 0;
 }
 
 p:last-child {

@@ -1,7 +1,8 @@
 .playField {
-  flex: 1;
-  margin: 16px;
-  background-color: #e1e1e1;
+  max-width: 100%;
+  margin: 0;
+  background-color: var(--bg-surface);
   border-radius: 16px;
-  padding: 12px;
+  padding: 16px;
+  box-shadow: var(--shadow-md);
 }

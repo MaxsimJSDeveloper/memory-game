@@ -50,7 +50,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
             onClick={onClose}
             aria-label="Close settings"
           >
-            <Icon id="icon-close" width="16" height="16" />
+            <Icon id="icon-close" width="16" height="16" stroke="#edf2f7" />
           </button>
           {children}
         </div>

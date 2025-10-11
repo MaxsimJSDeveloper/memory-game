@@ -17,9 +17,11 @@ const Icon = ({
 }: IconProps) => {
   return (
     <svg
-      className={`${fill} ${stroke} ${className}`}
+      className={`${className}`}
       width={width}
       height={height}
+      fill={fill}
+      stroke={stroke}
     >
       <use href={`/symbol-defs.svg#${id}`} />
     </svg>
