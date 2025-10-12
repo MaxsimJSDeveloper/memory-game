@@ -10,6 +10,7 @@ import GameHeader from "./components/GameHeader/GameHeader";
 import GameSettings from "./modules/GameSettings/GameSettings";
 import { ToastContainer } from "react-toastify";
 import { Helmet } from "react-helmet-async";
+import TxtWrap from "./ui/TxtWrap/TxtWrap";
 
 function App() {
   const [fieldSize, setFieldSize] = useState<number>(16);
@@ -40,7 +41,7 @@ function App() {
       <Button onClick={loadEmojis} type="button">
         {emojis.length > 0 ? "Play again" : "Play"}
       </Button>
-      {emojis.length === 0 && <p>Click on button for start play</p>}
+      {emojis.length === 0 && <TxtWrap>Click on button for start play</TxtWrap>}
 
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <GameSettings
@@ -50,7 +51,7 @@ function App() {
           disabled={emojis.length > 0 || loading}
         />
       </Modal>
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" theme="dark" />
       <GameStatus loading={loading} error={error} />
     </Container>
   );

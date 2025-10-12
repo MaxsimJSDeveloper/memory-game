@@ -5,3 +5,10 @@
   transform: translateX(-50%);
   z-index: 1000;
 }
+
+@media (min-width: 600px) {
+  .statusContainer {
+    top: 35%;
+    left: 45%;
+  }
+}

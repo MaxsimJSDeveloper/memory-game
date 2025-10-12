@@ -9,11 +9,7 @@ interface Props {
 export default function GameStatus({ loading, error }: Props) {
   return (
     <div role="status" className={styles.statusContainer}>
-      {loading && (
-        <>
-          <Loader loading />
-        </>
-      )}
+      {loading && <Loader loading />}
       {error && <p>{error}</p>}
     </div>
   );
