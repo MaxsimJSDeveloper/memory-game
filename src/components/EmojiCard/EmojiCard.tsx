@@ -34,33 +34,33 @@ const EmojiCard = React.memo(({ card, index, handleClick }: EmojiCardProps) => {
   }
 
   return (
-    <li
-      className={`${styles.card} ${
-        card.isMatched ? styles.matched : styles.notMatched
-      }`}
-      aria-label={ariaLabel}
-    >
-      <a.button
-        className={styles.cardFace}
-        style={{
-          opacity: opacity.to((o) => 1 - o),
-          transform,
-        }}
+    <li aria-label={ariaLabel}>
+      <button
+        className={`${styles.card} ${
+          card.isMatched ? styles.matched : styles.notMatched
+        }`}
         onClick={() => isClickable && handleClick(card.id)}
-        disabled={!isClickable}
       >
-        ❓
-      </a.button>
-      <a.div
-        className={styles.cardFace}
-        style={{
-          opacity,
-          transform,
-          rotateY: "180deg",
-        }}
-      >
-        {card.character}
-      </a.div>
+        <a.span
+          className={styles.cardFace}
+          style={{
+            opacity: opacity.to((o) => 1 - o),
+            transform,
+          }}
+        >
+          ❓
+        </a.span>
+        <a.span
+          className={styles.cardFace}
+          style={{
+            opacity,
+            transform,
+            rotateY: "180deg",
+          }}
+        >
+          {card.character}
+        </a.span>
+      </button>
     </li>
   );
 });
