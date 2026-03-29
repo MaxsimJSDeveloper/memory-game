@@ -14,8 +14,8 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
 
   const [isPreviewing, setIsPreviewing] = useState<boolean>(true);
 
-  const previewTimeout = useRef<ReturnType<typeof setTimeout>>();
-  const pairTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const previewTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const pairTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
     setTemplate(Array.from({ length: fieldSize }, () => null));
