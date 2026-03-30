@@ -1,77 +1,110 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Card } from "../ts/types";
-import { fetchEmoji } from "../api/emoji";
 import { prepareMemoryEmojis } from "../utils/dataTransformers";
 import { toast } from "react-toastify";
-import { openCard, previewCards } from "../utils/cards";
+import { getOpenedCardsState, getMatchedCardsState } from "../utils/cards";
+import { useTimeoutManager } from "./useTimeoutManager";
+import { useEmojiApi } from "./useEmojiApi";
+import { generateId } from "../utils/helpers/generateId";
 
 export const useGameCards = (fieldSize: number, cardDelay: number) => {
-  const [template, setTemplate] = useState<null[]>([]);
-
   const [emojis, setEmojis] = useState<Card[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState("");
+  const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
 
-  const [isPreviewing, setIsPreviewing] = useState<boolean>(true);
+  const { setSafeTimeout, clearAllTimeouts } = useTimeoutManager();
 
-  const previewTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const pairTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const { getEmojis, loading, error } = useEmojiApi();
 
-  useEffect(() => {
-    setTemplate(Array.from({ length: fieldSize }, () => null));
-  }, [fieldSize]);
+  const template = useMemo(
+    () =>
+      Array.from({ length: fieldSize }, () => ({
+        id: generateId("empty-slot"),
+      })),
+    [fieldSize],
+  );
 
-  const loadEmojis = async () => {
+  const startGame = async () => {
     try {
-      setLoading(true);
-      setError("");
+      clearAllTimeouts();
       setEmojis([]);
+      setIsPreviewing(false);
 
       toast.dismiss();
       toast("Game start");
 
-      const data = await fetchEmoji();
-      if (!data) throw new Error("No data received");
+      const rawEmojis = await getEmojis();
 
-      const cards = prepareMemoryEmojis(data, fieldSize);
+      if (!rawEmojis) {
+        toast.error("Failed to load emojis");
+        return;
+      }
+
+      const cards = prepareMemoryEmojis(rawEmojis, fieldSize);
       setEmojis(cards);
       setIsPreviewing(true);
 
       toast(`Time of previewing cards ${cardDelay} sec`);
-      previewCards({ setEmojis, setIsPreviewing, previewTimeout, cardDelay });
+
+      setSafeTimeout(
+        "preview",
+        () => {
+          setEmojis((currentEmojis) =>
+            currentEmojis.map((emoji) => ({ ...emoji, isOpen: false })),
+          );
+          setIsPreviewing(false);
+        },
+        cardDelay * 1000,
+      );
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
-      setError(errorMessage);
       toast.error(`Error: ${errorMessage}`);
-    } finally {
-      setLoading(false);
     }
   };
 
-  const handleClick = (id: string) => {
-    if (isPreviewing) return;
+  const handleClick = useCallback(
+    (id: string) => {
+      if (isPreviewing) return;
 
-    setEmojis((emojis) => openCard({ id, emojis, setEmojis, pairTimeout }));
+      setEmojis((prevEmojis) => {
+        const nextState = getOpenedCardsState(id, prevEmojis);
+        const openedCards = nextState.filter((c) => c.isOpen && !c.isMatched);
+
+        if (openedCards.length === 2) {
+          const [firstId, secondId] = openedCards.map((c) => c.id);
+
+          setSafeTimeout(
+            "pair",
+            () => {
+              setEmojis((current) =>
+                getMatchedCardsState(current, firstId, secondId),
+              );
+            },
+            500,
+          );
+        }
+
+        return nextState;
+      });
+    },
+    [isPreviewing, setSafeTimeout],
+  );
+
+  const stopGame = () => {
+    clearAllTimeouts();
+    setEmojis([]);
+    setIsPreviewing(false);
+    toast.dismiss();
+    toast("Game stopped");
   };
-
-  useEffect(() => {
-    const preview = previewTimeout.current;
-    const pair = pairTimeout.current;
-
-    return () => {
-      clearTimeout(preview);
-      clearTimeout(pair);
-    };
-  }, []);
 
   return {
     emojis,
     template,
     loading,
     error,
-    loadEmojis,
-    setEmojis,
+    startGame,
     handleClick,
+    stopGame,
     isPreviewing,
   };
 };

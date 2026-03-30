@@ -1,5 +1,5 @@
-import SizeOfPlayFieldBtn from "../../components/SizeOfPlayFieldBtn/SizeOfPlayFieldBtn";
 import { useWindowWidth } from "../../hooks/useWindowWidth";
+import Button from "../../ui/Button/Button";
 import style from "./SizeOfPlayField.module.css";
 
 interface SizeOfPlayFieldProps {
@@ -23,15 +23,10 @@ const SizeOfPlayField = ({ createField, disabled }: SizeOfPlayFieldProps) => {
         {configBtn.map(
           (btn) =>
             (btn.size !== 36 || width > 760) && (
-              <SizeOfPlayFieldBtn
-                createField={createField}
-                size={btn.size}
-                disabled={disabled}
-                key={btn.size}
-              >
+              <Button disabled={disabled} onClick={() => createField(btn.size)}>
                 {btn.label}
-              </SizeOfPlayFieldBtn>
-            )
+              </Button>
+            ),
         )}
       </div>
     </div>

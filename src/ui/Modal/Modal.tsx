@@ -56,7 +56,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
         </div>
       </div>
     </FocusTrap>,
-    document.getElementById("portal-root")!
+    document.getElementById("portal-root")!,
   );
 };
 

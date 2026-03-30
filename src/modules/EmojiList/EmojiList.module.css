@@ -3,4 +3,8 @@
   gap: 12px;
   margin: 0 auto;
   width: fit-content;
+  background-color: var(--bg-surface);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow-md);
 }
