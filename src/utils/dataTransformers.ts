@@ -1,6 +1,27 @@
 import { Card, Emoji } from "../ts/types";
 import { generateId } from "./helpers/generateId";
 
+const DEMO_CHARS = [
+  "🐶",
+  "🐱",
+  "🐭",
+  "🐹",
+  "🐰",
+  "🦊",
+  "🐻",
+  "🐼",
+  "🐨",
+  "🐯",
+  "🦁",
+  "🐮",
+  "🐷",
+  "🐸",
+  "🐒",
+  "🐔",
+  "🐧",
+  "🐦",
+];
+
 const shuffleArray = <T>(array: T[]): T[] => {
   const emojiArray = [...array];
 
@@ -26,6 +47,17 @@ export const prepareMemoryEmojis = (arr: Emoji[], size: number): Card[] => {
       ...emoji,
       isOpen: true,
       isMatched: false,
-    }))
+    })),
   );
+};
+
+export const getDemoEmojis = (pairsCount: number): Emoji[] => {
+  return DEMO_CHARS.slice(0, pairsCount).map((char, index) => ({
+    character: char,
+    slug: `demo-${index}`,
+    codePoint: "",
+    unicodeName: "",
+    group: "",
+    subGroup: "",
+  }));
 };

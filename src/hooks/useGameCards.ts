@@ -1,11 +1,10 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { Card } from "../ts/types";
 import { prepareMemoryEmojis } from "../utils/dataTransformers";
 import { toast } from "react-toastify";
-import { getOpenedCardsState, getMatchedCardsState } from "../utils/cards";
+import { cardsManager } from "../utils/cards";
 import { useTimeoutManager } from "./useTimeoutManager";
 import { useEmojiApi } from "./useEmojiApi";
-import { generateId } from "../utils/helpers/generateId";
 
 export const useGameCards = (fieldSize: number, cardDelay: number) => {
   const [emojis, setEmojis] = useState<Card[]>([]);
@@ -14,14 +13,6 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
   const { setSafeTimeout, clearAllTimeouts } = useTimeoutManager();
 
   const { getEmojis, loading, error } = useEmojiApi();
-
-  const template = useMemo(
-    () =>
-      Array.from({ length: fieldSize }, () => ({
-        id: generateId("empty-slot"),
-      })),
-    [fieldSize],
-  );
 
   const startGame = async () => {
     try {
@@ -66,7 +57,8 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
       if (isPreviewing) return;
 
       setEmojis((prevEmojis) => {
-        const nextState = getOpenedCardsState(id, prevEmojis);
+        const nextState = cardsManager.getOpenedCardsState(prevEmojis, id);
+
         const openedCards = nextState.filter((c) => c.isOpen && !c.isMatched);
 
         if (openedCards.length === 2) {
@@ -76,7 +68,7 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
             "pair",
             () => {
               setEmojis((current) =>
-                getMatchedCardsState(current, firstId, secondId),
+                cardsManager.getMatchedCardsState(current, firstId, secondId),
               );
             },
             500,
@@ -99,7 +91,6 @@ export const useGameCards = (fieldSize: number, cardDelay: number) => {
 
   return {
     emojis,
-    template,
     loading,
     error,
     startGame,

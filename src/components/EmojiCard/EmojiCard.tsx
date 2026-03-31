@@ -4,7 +4,7 @@ import React from "react";
 import { useSpring, a } from "@react-spring/web";
 
 interface EmojiCardProps {
-  card: Card | null;
+  card: Card;
   handleClick: (id: string) => void;
   index: number;
 }
@@ -19,10 +19,6 @@ const EmojiCard = React.memo(({ card, index, handleClick }: EmojiCardProps) => {
     }deg)`,
     config: { mass: 5, tension: 500, friction: 80 },
   });
-
-  if (card === null) {
-    return <li className={`${styles.card}`} aria-hidden="true"></li>;
-  }
 
   const isClickable = !card.isOpen && !card.isMatched;
 

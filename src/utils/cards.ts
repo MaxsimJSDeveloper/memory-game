@@ -1,28 +1,45 @@
-// utils/cards.ts (повний і чистий вигляд)
+// utils/cards.ts
 import { Card } from "../ts/types";
 
-export const getOpenedCardsState = (id: string, emojis: Card[]): Card[] => {
-  const openCards = emojis.filter((c) => c.isOpen && !c.isMatched);
-  if (openCards.length >= 2) return emojis;
+export const cardsManager = {
+  // Відкриває одну картку
+  getOpenedCardsState(emojis: Card[], idToOpen: string): Card[] {
+    const openCards = emojis.filter((c) => c.isOpen && !c.isMatched);
+    if (openCards.length >= 2) return emojis;
 
-  return emojis.map((c) => (c.id === id ? { ...c, isOpen: true } : c));
-};
+    return emojis.map((c) => (c.id === idToOpen ? { ...c, isOpen: true } : c));
+  },
 
-export const getMatchedCardsState = (
-  emojis: Card[],
-  firstId: string,
-  secondId: string,
-): Card[] => {
-  const firstCard = emojis.find((c) => c.id === firstId);
-  const secondCard = emojis.find((c) => c.id === secondId);
+  // Відкриває кілька карток (корисно для демо-режиму)
+  getOpenedMultipleCardsState(emojis: Card[], idsToOpen: string[]): Card[] {
+    return emojis.map((c) =>
+      idsToOpen.includes(c.id) ? { ...c, isOpen: true } : c,
+    );
+  },
 
-  if (!firstCard || !secondCard) return emojis;
+  // Перевіряє збіг і закриває або фіксує пару
+  getMatchedCardsState(
+    emojis: Card[],
+    firstId: string,
+    secondId: string,
+  ): Card[] {
+    const firstCard = emojis.find((c) => c.id === firstId);
+    const secondCard = emojis.find((c) => c.id === secondId);
 
-  const isMatched = firstCard.character === secondCard.character;
+    if (!firstCard || !secondCard) return emojis;
 
-  return emojis.map((c) =>
-    c.id === firstId || c.id === secondId
-      ? { ...c, isOpen: false, isMatched: isMatched || c.isMatched }
-      : c,
-  );
+    const isMatch = firstCard.character === secondCard.character;
+
+    return emojis.map((c) => {
+      if (c.id === firstId || c.id === secondId) {
+        return { ...c, isOpen: false, isMatched: isMatch || c.isMatched };
+      }
+      return c; // ВАЖЛИВО: повертаємо інші картки без змін!
+    });
+  },
+
+  // Закриває всі незіставлені картки
+  getResetState(emojis: Card[]): Card[] {
+    return emojis.map((c) => ({ ...c, isOpen: false, isMatched: false }));
+  },
 };

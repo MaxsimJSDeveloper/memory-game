@@ -4,25 +4,22 @@ import styles from "./EmojiList.module.css";
 
 interface EmojiListProps {
   emojis: Card[];
-  template: { id: string }[];
+  fieldSize: number;
   handleClick: (id: string) => void;
 }
 
-const EmojiList = ({ emojis, template, handleClick }: EmojiListProps) => {
-  const columns = Math.sqrt(template.length);
-
-  const isGameActive = emojis.length > 0;
-  const cardsToRender = isGameActive ? emojis : template;
+const EmojiList = ({ emojis, fieldSize, handleClick }: EmojiListProps) => {
+  const columns = Math.sqrt(fieldSize);
 
   return (
     <ul
       className={styles.emojiList}
       style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
     >
-      {cardsToRender.map((item, index) => (
+      {emojis.map((card, index) => (
         <EmojiCard
-          key={item.id}
-          card={isGameActive ? (item as Card) : null}
+          key={card.id}
+          card={card}
           handleClick={handleClick}
           index={index}
         />

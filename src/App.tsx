@@ -11,15 +11,25 @@ import EmojiList from "./modules/EmojiList/EmojiList"; // Використову
 import { ToastContainer } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import GameControls from "./components/GameControls/GameControls";
+import { useAttractMode } from "./hooks/useAttractMode";
 
 function App() {
   const [fieldSize, setFieldSize] = useState<number>(16);
   const [cardDelay, setCardDelay] = useState<number>(5);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { emojis, startGame, loading, error, template, handleClick, stopGame } =
+  const { emojis, startGame, loading, error, handleClick, stopGame } =
     useGameCards(fieldSize, cardDelay);
+
+  // Визначаємо, чи активна зараз реальна гра
+  const isGameActive = emojis.length > 0;
+
+  // Підключаємо наш демо-режим. Він активний ТІЛЬКИ коли немає реальної гри
+  const demoCards = useAttractMode(fieldSize, !isGameActive);
+
   const score = useScore(emojis);
+
+  const activeCards = isGameActive ? emojis : demoCards;
 
   return (
     <Container>
@@ -30,8 +40,8 @@ function App() {
       <GameHeader score={score} onSettingsClick={() => setIsOpen(true)} />
 
       <EmojiList
-        emojis={emojis}
-        template={template}
+        emojis={activeCards}
+        fieldSize={fieldSize}
         handleClick={handleClick}
       />
 
