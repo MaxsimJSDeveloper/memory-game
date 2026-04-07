@@ -18,7 +18,7 @@ function App() {
   const [cardDelay, setCardDelay] = useState<number>(5);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { emojis, startGame, loading, error, handleClick, stopGame } =
+  const { emojis, startGame, loading, error, handleClick, stopGame, isPreviewing } =
     useGameCards(fieldSize, cardDelay);
 
   // Визначаємо, чи активна зараз реальна гра
@@ -27,7 +27,7 @@ function App() {
   // Підключаємо наш демо-режим. Він активний ТІЛЬКИ коли немає реальної гри
   const demoCards = useAttractMode(fieldSize, !isGameActive);
 
-  const score = useScore(emojis);
+  const { score, isWon } = useScore(emojis);
 
   const activeCards = isGameActive ? emojis : demoCards;
 
@@ -37,7 +37,13 @@ function App() {
         <title>Memory Game | Train Your Brain & Focus</title>
       </Helmet>
 
-      <GameHeader score={score} onSettingsClick={() => setIsOpen(true)} />
+      <GameHeader
+        isGameActive={isGameActive}
+        isPreviewing={isPreviewing}
+        isWon={isWon}
+        score={score}
+        onSettingsClick={() => setIsOpen(true)}
+      />
 
       <EmojiList
         emojis={activeCards}

@@ -7,6 +7,12 @@
   margin-bottom: 16px;
 }
 
+.infoWrap {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
 .settingBtn {
   background-color: transparent;
   padding: 8px;

@@ -1,16 +1,17 @@
+import { useEffect } from "react";
 import { Card } from "../ts/types";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
 
 export const useScore = (emojis: Card[]) => {
   const matchedCount = emojis.filter((c) => c.isMatched).length;
   const score = matchedCount / 2;
+  const isWon = emojis.length > 0 && matchedCount === emojis.length;
 
   useEffect(() => {
-    if (emojis.length > 0 && matchedCount === emojis.length) {
+    if (isWon) {
       toast("You win!");
     }
-  }, [matchedCount, emojis.length]);
+  }, [isWon]);
 
-  return score;
+  return { score, isWon };
 };
