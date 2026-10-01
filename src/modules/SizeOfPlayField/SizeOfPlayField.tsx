@@ -23,7 +23,11 @@ const SizeOfPlayField = ({ createField, disabled }: SizeOfPlayFieldProps) => {
         {configBtn.map(
           (btn) =>
             (btn.size !== 36 || width > 760) && (
-              <Button disabled={disabled} onClick={() => createField(btn.size)}>
+              <Button
+                disabled={disabled}
+                onClick={() => createField(btn.size)}
+                key={btn.size}
+              >
                 {btn.label}
               </Button>
             ),
